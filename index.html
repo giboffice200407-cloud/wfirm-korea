@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>🎊WFIRM Korea 추진사무국🎊</title>
-    <!-- Fonts: Inter & Noto Sans KR -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800;900&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Firebase SDK (Compat) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -17,7 +17,8 @@
             --primary: #0a192f;
             --primary-dark: #020c1b;
             --accent: #64ffda;         /* Tech Mint */
-            --accent-purple: #7d2ae8;  /* Innovation Purple */
+            --accent-bright: #00e5ff;   /* Electric Cyan */
+            --accent-purple: #7d2ae8;
             --bg-light: #f8fafc;
             --text-main: #0a192f;
             --white: #ffffff;
@@ -26,12 +27,17 @@
             --radius-md: 20px;
         }
 
-        /* Ken Burns & Fade Animation for Background */
+        /* Animations */
         @keyframes kenBurnsFade {
             0% { opacity: 0; transform: scale(1.1); }
             15% { opacity: 1; }
             85% { opacity: 1; }
             100% { opacity: 0; transform: scale(1); }
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(100, 255, 218, 0.6), 0 0 40px rgba(100, 255, 218, 0.3); color: var(--accent); }
+            50% { text-shadow: 0 0 35px rgba(0, 229, 255, 0.8), 0 0 60px rgba(0, 229, 255, 0.5); color: var(--accent-bright); }
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -42,19 +48,20 @@
             background: var(--bg-light); 
             overflow-x: hidden; 
             line-height: 1.7;
+            word-break: keep-all;
         }
 
-        /* Reveal on Scroll */
         .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Typography Highlights */
+        /* 브랜드 텍스트 강화 (Neon Pulse) */
         .hl { 
-            color: var(--accent); 
-            font-weight: 900; 
-            text-shadow: 0 0 20px rgba(100, 255, 218, 0.8), 0 0 40px rgba(100, 255, 218, 0.4); 
+            display: inline-block;
+            font-weight: 900;
+            animation: neonPulse 3s infinite ease-in-out;
+            letter-spacing: -1px;
         }
-        .hl-dark { color: #0044cc; font-weight: 900; border-bottom: 3.5px solid var(--accent); }
+        .hl-dark { color: #0044cc; font-weight: 900; border-bottom: 4px solid var(--accent); }
 
         /* Navigation */
         nav { 
@@ -70,7 +77,7 @@
         .nav-menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 14.5px; font-weight: 700; transition: 0.3s; }
         .nav-menu a:hover { color: var(--accent); }
 
-        /* Mobile Hamburger */
+        /* Mobile Controls */
         .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1100; }
         .hamburger span { display: block; width: 24px; height: 2.5px; background: #fff; margin: 6px 0; transition: var(--transition); border-radius: 2px; }
         .hamburger.active span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
@@ -84,21 +91,17 @@
         }
         .mobile-menu.open { opacity: 1; visibility: visible; }
         .mobile-menu ul { list-style: none; text-align: center; }
-        .mobile-menu ul li { margin: 35px 0; }
+        .mobile-menu ul li { margin: 30px 0; }
         .mobile-menu ul li a { color: #fff; font-size: 28px; text-decoration: none; font-weight: 900; }
 
-        /* Hero Section - Dynamic & High Legibility */
+        /* Hero Section - Dynamic Animation */
         #hero { 
             min-height: 100vh; position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
             padding: 100px 24px; text-align: center; color: #fff;
         }
         .hero-slides { position: absolute; inset: 0; z-index: -1; background: #000; }
-        .slide {
-            position: absolute; inset: 0; opacity: 0;
-            background-size: cover; background-position: center;
-            animation: kenBurnsFade 14s infinite ease-in-out;
-        }
+        .slide { position: absolute; inset: 0; opacity: 0; background-size: cover; background-position: center; animation: kenBurnsFade 14s infinite ease-in-out; }
         .slide:nth-child(2) { animation-delay: 7s; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(2, 12, 27, 0.65), rgba(2, 12, 27, 0.85)); z-index: 0; }
 
@@ -121,87 +124,76 @@
         }
         .btn-main:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 25px 60px rgba(100, 255, 218, 0.7); }
 
-        /* Compact Layout Fixes */
-        section { padding: clamp(60px, 10vw, 100px) 24px; max-width: 1240px; margin: 0 auto; }
+        /* Unified Grid & Centering */
+        section { padding: clamp(60px, 12vw, 100px) 24px; max-width: 1240px; margin: 0 auto; }
         .section-title { font-size: clamp(30px, 5vw, 46px); font-weight: 900; text-align: center; margin-bottom: 60px; color: var(--primary); }
         .section-title::after { content: ''; display: block; width: 75px; height: 6px; background: var(--accent); margin: 24px auto 0; border-radius: 10px; }
 
-        /* Intro Box */
-        .intro-wrapper { 
-            display: grid; grid-template-columns: 1fr 1.6fr; 
-            background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
-            box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.15); border: 1px solid rgba(0,0,0,0.03);
+        .news-grid, .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+            gap: 32px; 
+            justify-content: center; 
         }
-        .intro-image { background: var(--primary); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; text-align: center; }
-        .intro-image i { font-size: 95px; margin-bottom: 35px; color: var(--accent); filter: drop-shadow(0 0 25px rgba(100, 255, 218, 0.6)); }
-        .intro-text { padding: clamp(50px, 8vw, 110px); font-size: 19.5px; color: var(--text-main); font-weight: 500; }
-        .intro-text p { margin-bottom: 2rem; white-space: pre-line; }
 
-        /* News Cards - Icon Removed */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 36px; }
+        /* 최신동향 카드 스타일 */
         .news-card { 
             background: var(--white); border-radius: var(--radius-md); padding: 48px;
-            border: 1.5px solid rgba(0,0,0,0.04); transition: var(--transition); cursor: pointer;
-            display: flex; flex-direction: column;
+            border: 1.5px solid rgba(0,0,0,0.03); transition: var(--transition); cursor: pointer;
+            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
         }
-        .news-card:hover { transform: translateY(-15px); border-color: var(--accent); box-shadow: 0 40px 80px rgba(10, 25, 47, 0.15); }
+        .news-card:hover { transform: translateY(-12px); border-color: var(--accent); box-shadow: 0 45px 90px rgba(10, 25, 47, 0.1); }
         .news-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 14px; font-weight: 800; color: #94a3b8; }
         .news-meta .source { color: var(--accent-purple); text-transform: uppercase; }
-        .news-title { font-size: 23px; font-weight: 900; color: var(--primary); line-height: 1.45; }
+        .news-title { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1.45; }
 
-        /* Gallery System */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+        /* 페이지네이션 중앙 배치 */
+        .pagination-wrap { display: flex; justify-content: center; gap: 12px; margin-top: 55px; }
+        .page-btn { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #eee; background: #fff; cursor: pointer; font-weight: 900; transition: 0.3s; }
+        .page-btn.active { background: var(--primary); color: var(--accent); border-color: var(--primary); }
+
+        /* 사무국 소개 본문 - 줄바꿈 복구 (사진 2 대응) */
+        .intro-wrapper { display: grid; grid-template-columns: 1fr 1.6fr; background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.15); border: 1px solid rgba(0,0,0,0.03); }
+        .intro-image { background: var(--primary); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; text-align: center; }
+        .intro-image i { font-size: 95px; margin-bottom: 35px; color: var(--accent); filter: drop-shadow(0 0 25px rgba(100, 255, 218, 0.6)); }
+        .intro-text { 
+            padding: clamp(50px, 8vw, 110px); 
+            font-size: 19.5px; 
+            color: var(--text-main); 
+            font-weight: 500; 
+            white-space: pre-line; /* 관리자 패널의 줄바꿈 유지 */
+        }
+
+        /* 안내 섹션 - 3열 정밀 정렬 */
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+        .info-box { background: var(--white); padding: 75px 40px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(0,0,0,0.03); transition: var(--transition); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+        .info-box i { font-size: 46px; color: var(--accent-purple); margin-bottom: 35px; opacity: 0.95; }
+        .info-box strong { display: block; font-size: 21px; font-weight: 900; color: var(--primary); margin-bottom: 20px; }
+
+        /* 갤러리 시스템 */
         .gallery-item { border-radius: var(--radius-md); overflow: hidden; background: var(--white); box-shadow: 0 25px 50px rgba(0,0,0,0.08); transition: var(--transition); cursor: zoom-in; }
         .gallery-img-wrap { aspect-ratio: 16/11; overflow: hidden; background: #e2e8f0; }
         .gallery-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s; }
         .gallery-item:hover img { transform: scale(1.15); }
-        .gallery-desc { padding: 24px; text-align: center; font-size: 16.5px; font-weight: 900; color: var(--text-main); border-top: 1.5px solid #f1f5f9; }
+        .gallery-desc { padding: 24px; text-align: center; font-size: 16px; font-weight: 900; color: var(--text-main); border-top: 1px solid #f1f5f9; }
 
-        /* Smart Lightbox */
-        #lightbox {
-            position: fixed; inset: 0; background: rgba(2, 12, 27, 0.98);
-            backdrop-filter: blur(25px); z-index: 10000; display: none;
-            align-items: center; justify-content: center; cursor: zoom-out;
-            animation: fadeIn 0.4s ease forwards;
-        }
-        #lightbox img { max-width: 92%; max-height: 92%; border-radius: 16px; box-shadow: 0 60px 140px rgba(0,0,0,0.9); transform: scale(0.85); transition: var(--transition); }
-        #lightbox.open { display: flex; }
-        #lightbox.open img { transform: scale(1); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Info Grid - Office Info Boxes */
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 50px; }
-        .info-box { 
-            background: var(--white); padding: 75px 40px; border-radius: var(--radius-md); 
-            text-align: center; border: 1.5px solid rgba(0,0,0,0.03); transition: var(--transition);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-        }
-        .info-box:hover { transform: translateY(-12px); box-shadow: 0 45px 90px rgba(0,0,0,0.1); }
-        .info-box i { font-size: 46px; color: var(--accent-purple); margin-bottom: 35px; opacity: 0.95; }
-        .info-box strong { display: block; font-size: 21px; font-weight: 900; color: var(--primary); margin-bottom: 20px; }
-        .info-box p { font-size: 18px; font-weight: 700; color: var(--text-main); line-height: 1.6; }
-
-        footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 130px 24px; font-size: 15px; border-top: 1.5px solid rgba(255,255,255,0.05); }
+        footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 120px 24px; font-size: 15px; border-top: 1.5px solid rgba(255,255,255,0.05); }
         .footer-admin-btn { margin-top: 45px; padding: 18px 45px; background: rgba(255,255,255,0.08); border-radius: 100px; cursor: pointer; display: inline-block; color: #fff; font-weight: 900; transition: 0.3s; border: 1.5px solid rgba(255,255,255,0.15); }
-        .footer-admin-btn:hover { background: var(--accent); color: var(--primary); border-color: var(--accent); transform: translateY(-3px); }
 
-        /* Admin UI System - Functional & Fixed */
-        #admin-panel { 
-            position: fixed; top: 0; right: -100%; width: min(600px, 100vw); height: 100vh; 
-            background: #fff; z-index: 11000; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); 
-            box-shadow: -40px 0 120px rgba(0,0,0,0.3); overflow-y: auto; display: none; 
-        }
+        #lightbox { position: fixed; inset: 0; background: rgba(2, 12, 27, 0.98); backdrop-filter: blur(25px); z-index: 10000; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
+        #lightbox img { max-width: 92%; max-height: 92%; border-radius: 16px; box-shadow: 0 60px 140px rgba(0,0,0,0.9); transition: var(--transition); }
+        #lightbox.open { display: flex; }
+
+        /* Admin UI */
+        #admin-panel { position: fixed; top: 0; right: -100%; width: min(600px, 100vw); height: 100vh; background: #fff; z-index: 11000; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -40px 0 120px rgba(0,0,0,0.3); overflow-y: auto; display: none; }
         #admin-panel.open { right: 0; display: block; }
         .admin-header { position: sticky; top: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); padding: 35px 45px; border-bottom: 2px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; z-index: 10001; }
         .admin-close-x { font-size: 46px; cursor: pointer; color: #cbd5e1; transition: 0.3s; line-height: 1; }
-        .admin-close-x:hover { color: var(--primary); transform: rotate(90deg); }
-        .admin-group { margin-bottom: 45px; background: #f8fafc; padding: 35px; border-radius: 24px; border: 1.5px solid #e2e8f0; }
+        .admin-group { margin-bottom: 45px; background: #f8fafc; padding: 35px; border-radius: 24px; border: 1px solid #e2e8f0; }
         .admin-group h4 { font-size: 16px; font-weight: 900; margin-bottom: 25px; color: var(--primary); border-left: 6px solid var(--accent); padding-left: 18px; }
-        .admin-input { width: 100%; padding: 18px; border: 1.5px solid #e2e8f0; border-radius: 14px; font-family: inherit; font-size: 15px; margin-bottom: 12px; outline: none; transition: 0.3s; }
-        .style-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 10px; margin-top: 12px; padding: 15px; background: #fff; border-radius: 14px; border: 1px solid #eee; }
-        .add-btn { width: 100%; padding: 18px; background: #f1f5f9; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; margin-top: 15px; color: var(--primary); transition: 0.2s; }
-        .add-btn:hover { background: var(--accent); }
-        .admin-save-btn { width: 100%; padding: 26px; background: var(--primary); color: var(--accent); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; font-size: 20px; margin-top: 60px; box-shadow: 0 20px 40px rgba(10, 25, 47, 0.3); }
+        .admin-input { width: 100%; padding: 18px; border: 1.5px solid #e2e8f0; border-radius: 14px; font-family: inherit; font-size: 15px; margin-bottom: 12px; outline: none; }
+        .add-btn { width: 100%; padding: 18px; background: #f1f5f9; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; margin-top: 15px; color: var(--primary); }
+        .admin-save-btn { width: 100%; padding: 26px; background: var(--primary); color: var(--accent); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; font-size: 20px; margin-top: 60px; }
 
         #login-overlay { position: fixed; inset: 0; background: rgba(2, 12, 27, 0.98); z-index: 10500; display: none; justify-content: center; align-items: center; backdrop-filter: blur(25px); }
         .login-box { background: #fff; padding: 80px 55px; border-radius: var(--radius-lg); width: min(520px, 94%); text-align: center; box-shadow: 0 60px 160px rgba(0,0,0,0.8); }
@@ -210,10 +202,9 @@
             .nav-menu { display: none; } .hamburger { display: flex; }
             .intro-wrapper { grid-template-columns: 1fr; }
             .info-grid { grid-template-columns: 1fr; gap: 24px; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .news-grid, .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
         }
         @media (max-width: 550px) {
-            .gallery-grid { grid-template-columns: 1fr; }
             .intro-text { padding: 45px 24px; }
             #hero-title { letter-spacing: -1.5px; }
             .btn-main { padding: 22px 48px; width: 100%; justify-content: center; }
@@ -224,7 +215,7 @@
 
 <nav id="main-nav">
     <div class="nav-container">
-        <a href="#" class="logo">🎊 WFIRM KOREA HUB 🎊</a>
+        <a href="#" class="logo">🎊 WFIRM KOREA 추진사무국 🎊</a>
         <ul class="nav-menu">
             <li><a href="#about">소개</a></li>
             <li><a href="#news">최신동향</a></li>
@@ -271,9 +262,8 @@
 
 <section id="news" style="background:#f1f5f9;" class="reveal">
     <h2 class="section-title" id="news-title-sec">🔬 재생의료산업 최신 동향</h2>
-    <p style="text-align:center; color:var(--text-muted); margin-bottom:45px; font-size:15px; font-weight:800;" id="news-page-stat"></p>
     <div class="news-grid" id="news-container"></div>
-    <div class="pagination-wrap" id="news-pagination" style="display:flex; justify-content:center; gap:12px; margin-top:55px;"></div>
+    <div class="pagination-wrap" id="news-pagination"></div>
 </section>
 
 <section id="video" class="reveal">
@@ -285,9 +275,8 @@
 
 <section id="gallery" class="reveal">
     <h2 class="section-title" id="galT1-title">📷 WFIRM Korea 사진</h2>
-    <p style="text-align:center; color:var(--text-muted); margin-bottom:35px; font-size:15.5px; font-weight:800;" id="gallery-page-stat"></p>
     <div class="gallery-grid" id="ceremony-container"></div>
-    <div id="gallery-pagination" style="display:flex; justify-content:center; gap:12px; margin-top:45px;"></div>
+    <div id="gallery-pagination" class="pagination-wrap"></div>
 </section>
 
 <section id="schedule" class="reveal">
@@ -297,35 +286,31 @@
         <div class="info-box"><i class="fa-solid fa-location-dot"></i><strong>장소</strong><p id="txt-sched-loc"></p></div>
         <div class="info-box"><i class="fa-solid fa-paper-plane"></i><strong>문의</strong><p id="txt-sched-contact"></p></div>
     </div>
-    <!-- 시설 사진 직결 -->
+    <!-- 🔎 시설 사진 그리드 (안내 섹션에 통합) -->
     <div class="gallery-grid" id="office-container"></div>
-    <div id="office-pagination" style="display:flex; justify-content:center; gap:12px; margin-top:45px;"></div>
 </section>
 
 <footer>
     <p>&copy; 2026 WFIRM Korea Promotion Office. All Rights Reserved.</p>
-    <p style="font-size:12px; opacity:.45; margin-top:8px;">본 페이지는 WFIRM Korea 임시 홈페이지입니다.</p>
+    <p style="font-size:12px; opacity:.45; margin-top:10px;">본 페이지는 WFIRM Korea 임시 홈페이지입니다.</p>
     <div id="admin-btn-trigger" class="footer-admin-btn"><i class="fa-solid fa-shield-halved"></i> Authorized Admin Console</div>
 </footer>
 
-<!-- Lightbox Modal -->
 <div id="lightbox" onclick="this.classList.remove('open')">
     <img id="lightbox-img" src="" alt="확대">
 </div>
 
-<!-- Admin Login Overlay -->
+<!-- Admin Login -->
 <div id="login-overlay">
     <div class="login-box">
-        <h3 style="font-weight:900; font-size:28px; margin-bottom:35px; letter-spacing:-1px; color:var(--primary);">System Authentication</h3>
+        <h3 style="font-weight:900; font-size:28px; margin-bottom:35px; color:var(--primary);">System Authentication</h3>
         <input type="text" id="login-id" class="admin-input" placeholder="Admin ID">
         <input type="password" id="login-pw" class="admin-input" placeholder="Security Key">
         <button id="btn-login-submit" class="admin-save-btn" style="margin-top:20px; width:100%;">Secure Sign In &rarr;</button>
-        <p id="login-error" style="color:#ff4d4d; display:none; margin-top:20px; font-weight:800;">Verification Failed.</p>
         <p style="font-size:14px; color:#94a3b8; margin-top:35px; cursor:pointer;" onclick="document.getElementById('login-overlay').style.display='none'">Cancel Request</p>
     </div>
 </div>
 
-<!-- Admin Panel -->
 <div id="admin-panel">
     <div class="admin-header">
         <h3 style="font-weight:900;">⚙️ Global System Hub</h3>
@@ -334,36 +319,32 @@
     <div style="padding:45px;">
         <div class="admin-group">
             <h4>1. 비주얼 테마 및 배경 설정</h4>
-            <label style="font-size:11px; display:block; margin-bottom:8px; font-weight:800; color:var(--text-muted);">히어로 배경 이미지 1 URL</label>
+            <label style="font-size:11px; font-weight:800;">메인 배경 이미지 1 (URL)</label>
             <input type="text" id="cfg-bg-img" class="admin-input">
-            <label style="font-size:11px; display:block; margin-bottom:8px; font-weight:800; color:var(--text-muted);">히어로 배경 이미지 2 URL (교차용)</label>
+            <label style="font-size:11px; font-weight:800;">메인 배경 이미지 2 (URL)</label>
             <input type="text" id="cfg-bg-img-2" class="admin-input">
-            <label style="font-size:11px; display:block; margin-bottom:8px; font-weight:800; color:var(--text-muted);">유튜브 비디오 ID</label>
+            <label style="font-size:11px; font-weight:800;">유튜브 비디오 ID</label>
             <input type="text" id="cfg-yt-id" class="admin-input">
         </div>
-        
         <div id="admin-text-inputs"></div>
-
-        <div class="admin-group" id="admin-ceremony-group">
-            <h4>3. 📷 WFIRM Korea 사진 관리</h4>
+        <div class="admin-group">
+            <h4>3. 📷 사진첩 관리 (행사용)</h4>
             <div id="adm-img-list-c"></div>
-            <button class="add-btn" onclick="addSlot('c')">+ 사진 슬롯 무제한 추가</button>
+            <button class="add-btn" onclick="addSlot('c')">+ 사진 슬롯 추가</button>
         </div>
-
-        <div class="admin-group" id="admin-office-group">
-            <h4>4. 🏢 사무국 시설 사진 관리</h4>
+        <div class="admin-group">
+            <h4>4. 🏢 사무국 시설 관리 (3장 정렬 권장)</h4>
             <div id="adm-img-list-o"></div>
-            <button class="add-btn" onclick="addSlot('o')">+ 사진 슬롯 무제한 추가</button>
+            <button class="add-btn" onclick="addSlot('o')">+ 사진 슬롯 추가</button>
         </div>
-
         <div class="admin-group">
             <h4>5. 🔬 최신 동향 관리</h4>
+            <p style="font-size:12px; color:var(--accent-purple); margin-bottom:10px;">날짜는 반드시 2000-00-00 형식으로 입력하십시오.</p>
             <div id="adm-news-list"></div>
-            <button class="add-btn" onclick="addSlot('n')">+ 뉴스 카드 무제한 추가</button>
+            <button class="add-btn" onclick="addSlot('n')">+ 뉴스 카드 추가</button>
         </div>
-
         <button class="admin-save-btn" id="btn-final-save">Deploy Global Sync</button>
-        <p id="save-status" style="display:none; text-align:center; font-weight:900; color:var(--accent-purple); margin-top:20px;"></p>
+        <p id="save-status" style="display:none; text-align:center; font-weight:900; margin-top:15px;"></p>
         <button id="btn-admin-close-bottom" style="width:100%; padding:22px; background:#f1f5f9; border:none; border-radius:20px; cursor:pointer; font-weight:800; color:#64748b; margin-top:20px;">Exit Hub</button>
     </div>
 </div>
@@ -382,21 +363,21 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const NEWS_PER_PAGE = 5;
+const NEWS_PER_PAGE = 6;
 const GALLERY_PER_PAGE = 6;
 let appState = {};
 
 const textFields = [
-    { id:'heroTitle',    targetId:'hero-title', label:'메인 타이틀', h:60, def:'<span>첨단재생의료산업</span><br><span class="hl">WFIRM Korea</span> <span>추진사무국</span>', sz:'56px', col:'#ffffff', align:'center', font:"'Inter',sans-serif" },
-    { id:'heroSub',      targetId:'hero-subtitle', label:'서브 타이틀', h:40, def:'INNOVATIVE BIO-INDUSTRY HUB', sz:'18px', col:'#64ffda', align:'center', font:"'Inter',sans-serif" },
-    { id:'introBody',    targetId:'intro-body', label:'소개 본문', h:120, def:'<span class=\"hl-dark\" style=\"font-size:24px; color:#0044cc; line-height:1.4;\">\"경상북도가 글로벌 재생의료의 표준을 세웁니다.\"</span>\n\n안녕하십니까? WFIRM Korea 추진 사무국 방문을 진심으로 환영합니다.\n\n경상북도가 글로벌 재생의료 거점으로 도약하기 위한 첫 단추인 <span class=\"hl-dark\">\'WFIRM Korea 추진 사무국\'</span>이 대한민국 바이오 산업의 혁신을 주도합니다.\n\n첨단재생의료는 인류의 난치병 극복을 위한 꿈의 기술이자, 국가의 미래를 결정지을 핵심 전략 산업입니다. 경상북도는 세계 최고 수준의 재생의학 역량을 보유한 <span class=\"hl-dark\">\'미국 웨이크포레스트 재생의학연구소(WFIRM)\'</span>와 전략적 파트너십을 구축하여, 대한민국을 넘어 아시아를 대표하는 재생의료 허브로 도약하고자 합니다.\n\n경북의 탄탄한 바이오 인프라와 글로벌 기술력이 만나는 이곳에서, 미래 산업의 새로운 이정표를 세우겠습니다. 여러분의 적극적인 성원과 협력을 기대합니다.\n\n<span style=\"display:block;text-align:right;font-weight:900;color:var(--primary);margin-top:25px;font-size:18px;\">- WFIRM Korea 추진 사무국 -</span>', sz:'19px', col:'#0a192f', align:'left', font:"'Noto Sans KR',sans-serif" },
-    { id:'secAbout',     targetId:'secAbout-title', label:'사무국 소개 제목', h:40, def:'🎤 사무국 소개', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
-    { id:'secVideo',     targetId:'secVideo-title', label:'영상 섹션 제목', h:40, def:'🎞️ 개소식 보도자료 영상', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
-    { id:'galT1',        targetId:'galT1-title', label:'사진 섹션 1 제목', h:40, def:'📷 WFIRM Korea 사진', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
-    { id:'secSchedule',  targetId:'secSchedule-title', label:'안내 섹션 제목', h:40, def:'🏢 WFIRM Korea 추진 사무국', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
-    { id:'schedDate',    targetId:'txt-sched-date', label:'근무시간 정보', h:40, def:'오전 9시 ~ 오후 6시<br>(주말 및 공휴일 휴무)', sz:'18px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
-    { id:'schedLoc',     targetId:'txt-sched-loc', label:'장소 정보', h:40, def:'경북 안동시 풍산읍 산업단지2길 5<br>(재)경북바이오산업연구원', sz:'18px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
-    { id:'schedContact', targetId:'txt-sched-contact', label:'문의 정보', h:40, def:'054-850-6973<br>WFIRM Korea 추진사무국', sz:'18px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" }
+    { id:'heroTitle',    targetId:'hero-title', label:'메인 타이틀', def:'<span>첨단재생의료산업</span><br><span class="hl">WFIRM Korea</span> <span>추진사무국</span>', sz:'52px', col:'#ffffff', align:'center', font:"'Inter',sans-serif" },
+    { id:'heroSub',      targetId:'hero-subtitle', label:'서브 타이틀', def:'INNOVATIVE BIO-INDUSTRHUB', sz:'18px', col:'#64ffda', align:'center', font:"'Inter',sans-serif" },
+    { id:'introBody',    targetId:'intro-body', label:'소개 본문', def:'<span class=\"hl-dark\" style=\"font-size:24px; color:#0044cc; line-height:1.4;\">\"경상북도가 글로벌 재생의료의 표준을 세웁니다.\"</span>\n\n안녕하십니까? WFIRM Korea 추진 사무국 방문을 진심으로 환영합니다.\n\n경상북도가 글로벌 재생의료 거점으로 도약하기 위한 첫 단추인 <span class=\"hl-dark\">\'WFIRM Korea 추진 사무국\'</span>이 대한민국 바이오 산업의 혁신을 주도합니다.\n\n첨단재생의료는 인류의 난치병 극복을 위한 꿈의 기술이자, 국가의 미래를 결정지을 핵심 전략 산업입니다. 경상북도는 세계 최고 수준의 재생의학 역량을 보유한 <span class=\"hl-dark\">\'미국 웨이크포레스트 재생의학연구소(WFIRM)\'</span>와 전략적 파트너십을 구축하여, 대한민국을 넘어 아시아를 대표하는 재생의료 허브로 도약하고자 합니다.\n\n경북의 탄탄한 바이오 인프라와 글로벌 기술력이 만나는 이곳에서, 미래 산업의 새로운 이정표를 세우겠습니다. 여러분의 적극적인 성원과 협력을 기대합니다.\n\n<span style=\"display:block;text-align:right;font-weight:900;color:var(--primary);margin-top:25px;font-size:18px;\">- WFIRM Korea 추진 사무국 -</span>', sz:'19px', col:'#0a192f', align:'left', font:"'Noto Sans KR',sans-serif" },
+    { id:'secAbout',     targetId:'secAbout-title', label:'사무국 소개 제목', def:'🎤 사무국 소개', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
+    { id:'secVideo',     targetId:'secVideo-title', label:'영상 섹션 제목', def:'🎞️ 개소식 보도자료 영상', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
+    { id:'galT1',        targetId:'galT1-title', label:'사진 섹션 1 제목', def:'📷 WFIRM Korea 사진', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
+    { id:'secSchedule',  targetId:'secSchedule-title', label:'안내 섹션 제목', def:'🏢 WFIRM Korea 추진 사무국', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
+    { id:'schedDate',    targetId:'txt-sched-date', label:'근무시간 정보', def:'오전 9시 ~ 오후 6시<br>(주말 및 공휴일 휴무)', sz:'18px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
+    { id:'schedLoc',     targetId:'txt-sched-loc', label:'장소 정보', def:'경북 안동시 풍산읍 산업단지2길 5<br>(재)경북바이오산업연구원', sz:'18px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
+    { id:'schedContact', targetId:'txt-sched-contact', label:'문의 정보', def:'054-850-6973<br>WFIRM Korea 추진사무국', sz:'18px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" }
 ];
 
 const observer = new IntersectionObserver((entries) => {
@@ -415,65 +396,76 @@ async function loadData() {
 }
 
 function initDefaultState() {
-    const BASE = 'https://github.com/giboffice200407-cloud/wfirm-korea/blob/main/src/';
     appState = {
         theme: { accent:'#64ffda', primary:'#0a192f', bgImage:'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=2000', bgImage2:'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=2000' },
         content: { ytId: 'VHE52iEaPJ4' },
         images: { ceremony: [], ceremonyDesc: [], office: [], officeDesc: [] },
         news: []
     };
-    ['1','2','3','4','5','6'].forEach((n,i) => { appState.images.ceremony[i]=BASE+n+'.jpg?raw=true'; appState.images.ceremonyDesc[i]=['개소식 단체','현판 제막식','환영사','MOU 체결식','토론회','단체 사진'][i]; });
-    ['a','b','c'].forEach((n,i) => { appState.images.office[i]=BASE+n+(n==='a'?'.jpg':'.JPG')+'?raw=true'; appState.images.officeDesc[i]=['추진사무국 전경','실험시설','연구 현장'][i]; });
     textFields.forEach(f => appState.content[f.id] = { text:f.def, sz:f.sz, col:f.col, align:f.align, font:f.font });
 }
 
 function renderAll() {
     document.getElementById('hero-slide-1').style.backgroundImage = `url('${appState.theme.bgImage}')`;
     document.getElementById('hero-slide-2').style.backgroundImage = `url('${appState.theme.bgImage2 || appState.theme.bgImage}')`;
-    
     textFields.forEach(f => {
         const el = document.getElementById(f.targetId);
         const o = appState.content[f.id];
         if(el && o) {
-            el.innerHTML = o.text || f.def;
+            el.innerHTML = o.text;
             el.style.fontSize = o.sz; el.style.color = o.col; el.style.textAlign = o.align; el.style.fontFamily = o.font;
         }
     });
     document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${appState.content.ytId}?rel=0`;
     renderNews(1);
     renderGallery(1, 'ceremony', 'ceremony-container', 'gallery-pagination', 'gallery-page-stat');
-    renderGallery(1, 'office', 'office-container', 'office-pagination', 'office-page-stat');
+    renderGallery(1, 'office', 'office-container', '', '');
 }
 
 function renderNews(page) {
     const container = document.getElementById('news-container');
-    const valid = appState.news.filter(n => n && n.title && n.title.trim() !== '');
-    const items = valid.slice((page-1)*NEWS_PER_PAGE, page*NEWS_PER_PAGE);
+    const newsList = [...appState.news].filter(n => n && n.title && n.title.trim());
+    
+    // [날짜순 정렬 알고리즘 고도화]
+    newsList.sort((a, b) => {
+        const dateA = a.date ? a.date.replace(/[^0-9]/g, '') : '0';
+        const dateB = b.date ? b.date.replace(/[^0-9]/g, '') : '0';
+        return parseInt(dateB) - parseInt(dateA);
+    });
+
+    const start = (page - 1) * NEWS_PER_PAGE;
+    const items = newsList.slice(start, start + NEWS_PER_PAGE);
+    
     container.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding:60px; font-weight:800;">현재 업데이트된 동향 정보가 없습니다.</p>';
     items.forEach(n => {
         const card = document.createElement('div');
         card.className = 'news-card';
         if(n.url) card.onclick = () => window.open(n.url, '_blank');
-        card.innerHTML = `<div class="news-meta"><span class="date">${n.date||'2000.00.00.'}</span><span class="source">${n.tag||'UPDATE'}</span></div><div class="news-title">${n.title}</div>`;
+        card.innerHTML = `<div class="news-meta"><span class="date">${n.date||'2000-00-00'}</span><span class="source">${n.tag||'UPDATE'}</span></div><div class="news-title">${n.title}</div>`;
         container.appendChild(card);
     });
-    const total = Math.ceil(valid.length / NEWS_PER_PAGE);
+
+    const total = Math.ceil(newsList.length / NEWS_PER_PAGE);
     const pagin = document.getElementById('news-pagination');
     pagin.innerHTML = '';
-    for(let i=1; i<=total; i++) {
-        const btn = document.createElement('button'); btn.innerText = i; 
-        btn.style = "width:42px; height:42px; border-radius:12px; border:1.5px solid #eee; background:#fff; cursor:pointer; font-weight:800;";
-        if(i===page) { btn.style.background = "var(--primary)"; btn.style.color = "var(--accent)"; }
-        btn.onclick = () => { renderNews(i); document.getElementById('news').scrollIntoView(); };
-        pagin.appendChild(btn);
+    if(total > 1) {
+        for(let i=1; i<=total; i++) {
+            const btn = document.createElement('button'); btn.innerText = i; 
+            btn.className = 'page-btn' + (i===page?' active':'');
+            btn.onclick = () => { renderNews(i); document.getElementById('news').scrollIntoView({behavior:'smooth', block:'start'}); };
+            pagin.appendChild(btn);
+        }
     }
 }
 
 function renderGallery(page, key, containerId, paginId, statId) {
     const container = document.getElementById(containerId);
-    const valid = appState.images[key].map((url, i) => ({url, desc: appState.images[key+'Desc'][i]})).filter(x => x.url.trim());
-    const items = valid.slice((page-1)*GALLERY_PER_PAGE, page*GALLERY_PER_PAGE);
-    container.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding:40px;">사진 로딩 중...</p>';
+    const valid = appState.images[key].map((url, i) => ({url, desc: appState.images[key+'Desc'][i]})).filter(x => x.url && x.url.trim());
+    
+    // 사무국 시설은 3열 정렬 고정 (페이지네이션 없음)
+    const items = (key === 'office') ? valid : valid.slice((page-1)*GALLERY_PER_PAGE, page*GALLERY_PER_PAGE);
+    
+    container.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding:40px;">사진 준비 중</p>';
     items.forEach(item => {
         const div = document.createElement('div');
         div.className = 'gallery-item';
@@ -481,6 +473,20 @@ function renderGallery(page, key, containerId, paginId, statId) {
         div.innerHTML = `<div class="gallery-img-wrap"><img src="${item.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x450?text=Error'"></div><div class="gallery-desc">${item.desc}</div>`;
         container.appendChild(div);
     });
+
+    if(paginId) {
+        const total = Math.ceil(valid.length / GALLERY_PER_PAGE);
+        const pagin = document.getElementById(paginId);
+        pagin.innerHTML = '';
+        if(total > 1) {
+            for(let i=1; i<=total; i++) {
+                const btn = document.createElement('button'); btn.innerText = i; 
+                btn.className = 'page-btn' + (i===page?' active':'');
+                btn.onclick = () => renderGallery(i, key, containerId, paginId, statId);
+                pagin.appendChild(btn);
+            }
+        }
+    }
 }
 
 function addSlot(type) {
@@ -488,9 +494,9 @@ function addSlot(type) {
     const div = document.createElement('div');
     div.style = "margin-bottom:12px; padding:20px; background:#fff; border-radius:16px; border:1.5px solid #e2e8f0;";
     if(type==='n') {
-        div.innerHTML = `<div style="display:flex; gap:10px;"><input type="text" class="admin-input news-date" placeholder="2000.00.00."><input type="text" class="admin-input news-tag" placeholder="출처/분류"></div><input type="text" class="admin-input news-title" placeholder="뉴스 제목"><input type="text" class="admin-input news-url" placeholder="원본 기사 링크 URL">`;
+        div.innerHTML = `<div style="display:flex; gap:10px;"><input type="text" class="admin-input news-date" placeholder="2000-00-00" pattern="\\d{4}-\\d{2}-\\d{2}"><input type="text" class="admin-input news-tag" placeholder="출처/분류"></div><input type="text" class="admin-input news-title" placeholder="뉴스 제목"><input type="text" class="admin-input news-url" placeholder="원본 링크 URL">`;
     } else {
-        div.innerHTML = `<input type="text" class="admin-input img-url" placeholder="GitHub Raw URL 주소"><input type="text" class="admin-input img-desc" placeholder="사진 아래에 보일 캡션">`;
+        div.innerHTML = `<input type="text" class="admin-input img-url" placeholder="GitHub Raw URL 주소"><input type="text" class="admin-input img-desc" placeholder="사진 캡션">`;
     }
     document.getElementById(list).appendChild(div);
 }
@@ -503,16 +509,7 @@ function syncToAdmin() {
     tc.innerHTML = '<h4>2. 텍스트 및 스타일 통합 관리</h4>';
     textFields.forEach(f => {
         const o = appState.content[f.id];
-        tc.innerHTML += `<div class="admin-group">
-            <label style="font-size:13px; font-weight:900;">${f.label}</label>
-            <textarea id="adm-txt-${f.id}" class="admin-input" style="height:110px; margin-top:10px;">${o.text}</textarea>
-            <div class="style-grid">
-                <div><label>폰트</label><select id="adm-font-${f.id}" class="admin-input"><option value="'Noto Sans KR',sans-serif">고딕</option><option value="'Inter', sans-serif">테크</option></select></div>
-                <div><label>크기</label><input type="text" id="adm-sz-${f.id}" class="admin-input" value="${o.sz}"></div>
-                <div><label>색상</label><input type="color" id="adm-col-${f.id}" style="width:100%;height:35px;border:none;" value="${o.col}"></div>
-                <div><label>정렬</label><select id="adm-align-${f.id}" class="admin-input"><option value="left" ${o.align==='left'?'selected':''}>좌</option><option value="center" ${o.align==='center'?'selected':''}>중</option><option value="right" ${o.align==='right'?'selected':''}>우</option></select></div>
-            </div>
-        </div>`;
+        tc.innerHTML += `<div class="admin-group"><label style="font-size:13px; font-weight:900;">${f.label}</label><textarea id="adm-txt-${f.id}" class="admin-input" style="height:120px; margin-top:10px;">${o.text}</textarea><div class="style-grid"><div><label>폰트</label><select id="adm-font-${f.id}" class="admin-input"><option value="'Noto Sans KR',sans-serif">고딕</option><option value="'Inter', sans-serif">테크</option></select></div><div><label>크기</label><input type="text" id="adm-sz-${f.id}" class="admin-input" value="${o.sz}"></div><div><label>색상</label><input type="color" id="adm-col-${f.id}" style="width:100%;height:35px;border:none;" value="${o.col}"></div><div><label>정렬</label><select id="adm-align-${f.id}" class="admin-input"><option value="left" ${o.align==='left'?'selected':''}>좌</option><option value="center" ${o.align==='center'?'selected':''}>중</option><option value="right" ${o.align==='right'?'selected':''}>우</option></select></div></div></div>`;
     });
     document.getElementById('adm-img-list-c').innerHTML = '';
     appState.images.ceremony.forEach((url, i) => { addSlot('c'); const g = document.getElementById('adm-img-list-c').lastChild; g.querySelector('.img-url').value = url; g.querySelector('.img-desc').value = appState.images.ceremonyDesc[i]; });
@@ -530,11 +527,20 @@ document.getElementById('btn-login-submit').onclick = () => {
     if(document.getElementById('login-id').value === 'admin' && document.getElementById('login-pw').value === 'me0979') {
         document.getElementById('login-overlay').style.display = 'none';
         const p = document.getElementById('admin-panel'); p.style.display = 'block'; setTimeout(() => p.classList.add('open'), 50);
-    } else document.getElementById('login-error').style.display = 'block';
+    } else alert('인증 실패');
 };
 
 document.getElementById('btn-final-save').onclick = async () => {
-    const s = document.getElementById('save-status'); s.innerText = 'Global Cloud Syncing...'; s.style.display = 'block';
+    const s = document.getElementById('save-status'); s.innerText = 'Synchronizing...'; s.style.display = 'block';
+    
+    // [날짜 형식 유효성 검사]
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    let dateError = false;
+    document.querySelectorAll('.news-date').forEach(input => {
+        if(input.value.trim() && !dateRegex.test(input.value)) dateError = true;
+    });
+    if(dateError) { alert("날짜 형식이 잘못되었습니다. (YYYY-MM-DD 필수)"); s.style.display = 'none'; return; }
+
     appState.theme.bgImage = document.getElementById('cfg-bg-img').value;
     appState.theme.bgImage2 = document.getElementById('cfg-bg-img-2').value;
     appState.content.ytId = document.getElementById('cfg-yt-id').value;
@@ -547,8 +553,9 @@ document.getElementById('btn-final-save').onclick = async () => {
     document.querySelectorAll('#adm-img-list-o div').forEach(div => { const url = div.querySelector('.img-url'); if(url && url.value.trim()){ appState.images.office.push(url.value); appState.images.officeDesc.push(div.querySelector('.img-desc').value); } });
     appState.news = [];
     document.querySelectorAll('#adm-news-list div').forEach(div => { const title = div.querySelector('.news-title'); if(title && title.value.trim()) appState.news.push({ date: div.querySelector('.news-date').value, tag: div.querySelector('.news-tag').value, title: title.value, url: div.querySelector('.news-url').value }); });
-    try { await db.ref('wfirm').set(appState); s.innerText = '✅ Global Deployment Successful!'; renderAll(); } catch(e) { s.innerText = '❌ Access Restricted'; }
-    setTimeout(() => s.style.display = 'none', 4000);
+    
+    try { await db.ref('wfirm').set(appState); s.innerText = '✅ Success!'; renderAll(); } catch(e) { s.innerText = '❌ Error'; }
+    setTimeout(() => s.style.display = 'none', 3000);
 };
 
 const hamburger = document.getElementById('hamburger-btn');
