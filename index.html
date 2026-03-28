@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800;900&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Firebase SDK (Compat) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
@@ -17,21 +17,20 @@
             --primary: #0a192f;
             --primary-dark: #020c1b;
             --accent: #64ffda;         /* Tech Mint */
-            --accent-purple: #7d2ae8;  /* Innovation Purple */
+            --accent-bright: #00e5ff;   /* Electric Cyan */
+            --accent-purple: #7d2ae8;
             --bg-light: #f8fafc;
             --text-main: #0a192f;
             --white: #ffffff;
-            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             --radius-lg: 32px;
             --radius-md: 20px;
         }
 
-        /* Ken Burns & Fade Animation for Background */
-        @keyframes kenBurnsFade {
-            0% { opacity: 0; transform: scale(1.15); }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { opacity: 0; transform: scale(1); }
+        /* Neon Pulse Animation */
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(100, 255, 218, 0.6), 0 0 40px rgba(100, 255, 218, 0.3); color: var(--accent); }
+            50% { text-shadow: 0 0 35px rgba(0, 229, 255, 0.8), 0 0 60px rgba(0, 229, 255, 0.5); color: var(--accent-bright); }
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -42,78 +41,73 @@
             background: var(--bg-light); 
             overflow-x: hidden; 
             line-height: 1.7;
-            word-break: keep-all; /* Mobile text wrapping optimization */
+            word-break: keep-all;
         }
 
-        /* Reveal on Scroll */
         .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Typography */
         .hl { 
-            color: var(--accent); 
-            font-weight: 900; 
-            text-shadow: 0 0 20px rgba(100, 255, 218, 0.6), 0 0 40px rgba(100, 255, 218, 0.3); 
+            display: inline-block;
+            font-weight: 900;
+            animation: neonPulse 3s infinite ease-in-out;
+            letter-spacing: -1px;
         }
-        .hl-dark { color: #0044cc; font-weight: 900; border-bottom: 3.5px solid var(--accent); }
+        .hl-dark { color: #0044cc; font-weight: 900; border-bottom: 4px solid var(--accent); }
 
         /* Navigation */
         nav { 
             background: rgba(10, 25, 47, 0.95); 
             backdrop-filter: blur(20px); 
-            position: fixed; width: 100%; top: 0; z-index: 2000; 
+            position: fixed; width: 100%; top: 0; z-index: 1000; 
             border-bottom: 1px solid rgba(255,255,255,0.1);
             height: 70px;
         }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo { color: #fff; text-decoration: none; font-weight: 900; font-size: 1rem; line-height: 1.2; }
+        .logo { color: #fff; text-decoration: none; font-weight: 900; font-size: 1.1rem; }
         .nav-menu { display: flex; gap: 32px; list-style: none; }
         .nav-menu a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 14.5px; font-weight: 700; transition: 0.3s; }
         .nav-menu a:hover { color: var(--accent); }
 
-        /* Mobile Hamburger Icon */
-        .hamburger { 
-            display: none; background: none; border: none; cursor: pointer; 
-            padding: 10px; z-index: 3000; position: relative; 
-        }
-        .hamburger span { 
-            display: block; width: 24px; height: 2px; background: #fff; 
-            margin: 6px 0; transition: var(--transition); border-radius: 4px; 
-        }
-        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        /* Mobile Controls */
+        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 10px; z-index: 1100; }
+        .hamburger span { display: block; width: 24px; height: 2.5px; background: #fff; margin: 6px 0; transition: var(--transition); border-radius: 2px; }
+        .hamburger.active span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
 
-        /* Mobile Overlay Menu */
         .mobile-menu { 
-            position: fixed; inset: 0; background: var(--primary); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: var(--transition); z-index: 2500;
+            position: fixed; inset: 0; background: var(--primary-dark); 
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: var(--transition); z-index: 1050;
         }
         .mobile-menu.open { opacity: 1; visibility: visible; }
         .mobile-menu ul { list-style: none; text-align: center; }
-        .mobile-menu ul li { margin: 25px 0; }
-        .mobile-menu ul li a { color: #fff; font-size: 24px; text-decoration: none; font-weight: 900; }
+        .mobile-menu ul li { margin: 30px 0; }
+        .mobile-menu ul li a { color: #fff; font-size: 28px; text-decoration: none; font-weight: 900; }
 
-        /* Hero Section - Dynamic & High Legibility */
+        /* Hero Section - JS Ken Burns Engine */
         #hero { 
             min-height: 100vh; position: relative; overflow: hidden;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
             padding: 100px 24px; text-align: center; color: #fff;
         }
         .hero-slides { position: absolute; inset: 0; z-index: -1; background: #000; }
-        .slide {
-            position: absolute; inset: 0; opacity: 0;
-            background-size: cover; background-position: center;
-            animation: kenBurnsFade 14s infinite ease-in-out;
+        .slide { 
+            position: absolute; inset: 0; opacity: 0; 
+            background-size: cover; background-position: center; 
+            transition: opacity 2.5s ease-in-out, transform 8s ease-out;
+            transform: scale(1.15);
         }
-        .slide:nth-child(2) { animation-delay: 7s; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(2, 12, 27, 0.7), rgba(2, 12, 27, 0.85)); z-index: 0; }
+        .slide.active { opacity: 1; transform: scale(1); }
+        
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(rgba(2, 12, 27, 0.65), rgba(2, 12, 27, 0.85)); z-index: 0; }
 
-        #hero-subtitle { position: relative; z-index: 1; color: var(--accent); font-weight: 900; letter-spacing: 5px; margin-bottom: 24px; font-size: clamp(12px, 2vw, 17px); text-transform: uppercase; }
+        #hero-subtitle { position: relative; z-index: 1; color: var(--accent); font-weight: 900; letter-spacing: 5px; margin-bottom: 24px; font-size: clamp(14px, 2vw, 17px); text-transform: uppercase; }
         #hero-title { 
             position: relative; z-index: 1;
-            font-size: clamp(30px, 7vw, 82px); font-weight: 900; line-height: 1.2; margin-bottom: 48px; letter-spacing: -2px; 
+            font-size: clamp(38px, 8vw, 82px); font-weight: 900; line-height: 1.15; margin-bottom: 54px; letter-spacing: -2px; 
             text-shadow: 0 5px 25px rgba(0,0,0,1); 
         }
         #hero-title span { color: #ffffff; }
@@ -122,89 +116,83 @@
             position: relative; z-index: 1;
             background: linear-gradient(135deg, var(--accent) 0%, #00d2ff 100%); 
             color: var(--primary-dark) !important; 
-            padding: clamp(18px, 4vw, 24px) clamp(30px, 6vw, 68px); border-radius: 100px; 
-            text-decoration: none; font-weight: 900; font-size: clamp(15px, 3vw, 18.5px); 
+            padding: 24px 68px; border-radius: 100px; 
+            text-decoration: none; font-weight: 900; font-size: 18.5px; 
             box-shadow: 0 15px 45px rgba(100, 255, 218, 0.5); transition: var(--transition);
             display: flex; align-items: center; gap: 12px;
         }
         .btn-main:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 25px 60px rgba(100, 255, 218, 0.7); }
 
-        /* Compact Layout Fixes */
-        section { padding: clamp(60px, 10vw, 100px) 24px; max-width: 1240px; margin: 0 auto; }
-        .section-title { font-size: clamp(26px, 5vw, 46px); font-weight: 900; text-align: center; margin-bottom: 60px; color: var(--primary); }
+        /* Unified Grid & Centering */
+        section { padding: clamp(60px, 12vw, 100px) 24px; max-width: 1240px; margin: 0 auto; }
+        .section-title { font-size: clamp(30px, 5vw, 46px); font-weight: 900; text-align: center; margin-bottom: 60px; color: var(--primary); }
         .section-title::after { content: ''; display: block; width: 75px; height: 6px; background: var(--accent); margin: 24px auto 0; border-radius: 10px; }
 
-        /* Intro Box */
-        .intro-wrapper { 
-            display: grid; grid-template-columns: 1fr 1.6fr; 
-            background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
-            box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.15); border: 1px solid rgba(0,0,0,0.03);
+        .news-grid, .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+            gap: 32px; 
+            justify-content: center; 
         }
-        .intro-image { background: var(--primary); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; text-align: center; }
-        .intro-image i { font-size: 95px; margin-bottom: 35px; color: var(--accent); filter: drop-shadow(0 0 25px rgba(100, 255, 218, 0.6)); }
-        .intro-text { padding: clamp(30px, 6vw, 110px); font-size: clamp(16px, 2.5vw, 19.5px); color: var(--text-main); font-weight: 500; }
-        .intro-text p { margin-bottom: 2rem; white-space: pre-line; }
 
-        /* News Cards */
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 36px; }
+        /* 최신동향 카드 스타일 */
         .news-card { 
             background: var(--white); border-radius: var(--radius-md); padding: 48px;
-            border: 1.5px solid rgba(0,0,0,0.04); transition: var(--transition); cursor: pointer;
-            display: flex; flex-direction: column;
+            border: 1.5px solid rgba(0,0,0,0.03); transition: var(--transition); cursor: pointer;
+            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
         }
-        .news-card:hover { transform: translateY(-15px); border-color: var(--accent); box-shadow: 0 40px 80px rgba(10, 25, 47, 0.15); }
+        .news-card:hover { transform: translateY(-12px); border-color: var(--accent); box-shadow: 0 45px 90px rgba(10, 25, 47, 0.1); }
         .news-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 14px; font-weight: 800; color: #94a3b8; }
-        .news-title { font-size: clamp(18px, 3vw, 23px); font-weight: 900; color: var(--primary); line-height: 1.45; }
+        .news-meta .source { color: var(--accent-purple); text-transform: uppercase; }
+        .news-title { font-size: 22px; font-weight: 900; color: var(--primary); line-height: 1.45; }
 
-        /* Gallery System */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        /* 페이지네이션 중앙 배치 */
+        .pagination-wrap { display: flex; justify-content: center; gap: 12px; margin-top: 55px; }
+        .page-btn { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #eee; background: #fff; cursor: pointer; font-weight: 900; transition: 0.3s; }
+        .page-btn.active { background: var(--primary); color: var(--accent); border-color: var(--primary); }
+
+        /* 사무국 소개 본문 */
+        .intro-wrapper { display: grid; grid-template-columns: 1fr 1.6fr; background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.15); border: 1px solid rgba(0,0,0,0.03); }
+        .intro-image { background: var(--primary); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 40px; text-align: center; }
+        .intro-image i { font-size: 95px; margin-bottom: 35px; color: var(--accent); filter: drop-shadow(0 0 25px rgba(100, 255, 218, 0.6)); }
+        .intro-text { 
+            padding: clamp(50px, 8vw, 110px); 
+            font-size: 19.5px; 
+            color: var(--text-main); 
+            font-weight: 500; 
+            white-space: pre-line; 
+        }
+
+        /* 안내 섹션 */
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+        .info-box { background: var(--white); padding: 75px 40px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(0,0,0,0.03); transition: var(--transition); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+        .info-box i { font-size: 46px; color: var(--accent-purple); margin-bottom: 35px; opacity: 0.95; }
+        .info-box strong { display: block; font-size: 21px; font-weight: 900; color: var(--primary); margin-bottom: 20px; }
+
+        /* 갤러리 시스템 */
         .gallery-item { border-radius: var(--radius-md); overflow: hidden; background: var(--white); box-shadow: 0 25px 50px rgba(0,0,0,0.08); transition: var(--transition); cursor: zoom-in; }
         .gallery-img-wrap { aspect-ratio: 16/11; overflow: hidden; background: #e2e8f0; }
         .gallery-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s; }
         .gallery-item:hover img { transform: scale(1.15); }
-        .gallery-desc { padding: 24px; text-align: center; font-size: 16px; font-weight: 900; color: var(--text-main); border-top: 1.5px solid #f1f5f9; }
+        .gallery-desc { padding: 24px; text-align: center; font-size: 16px; font-weight: 900; color: var(--text-main); border-top: 1px solid #f1f5f9; }
 
-        /* Smart Lightbox */
-        #lightbox {
-            position: fixed; inset: 0; background: rgba(2, 12, 27, 0.98);
-            backdrop-filter: blur(25px); z-index: 10000; display: none;
-            align-items: center; justify-content: center; cursor: zoom-out;
-            animation: fadeIn 0.4s ease forwards;
-        }
-        #lightbox img { max-width: 92%; max-height: 92%; border-radius: 16px; box-shadow: 0 60px 140px rgba(0,0,0,0.9); transform: scale(0.85); transition: var(--transition); }
-        #lightbox.open { display: flex; }
-        #lightbox.open img { transform: scale(1); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Info Grid */
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 50px; }
-        .info-box { 
-            background: var(--white); padding: 75px 40px; border-radius: var(--radius-md); 
-            text-align: center; border: 1.5px solid rgba(0,0,0,0.03); transition: var(--transition);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-        }
-        .info-box:hover { transform: translateY(-12px); box-shadow: 0 45px 90px rgba(0,0,0,0.1); }
-        .info-box i { font-size: 46px; color: var(--accent-purple); margin-bottom: 35px; opacity: 0.95; }
-        .info-box strong { display: block; font-size: clamp(16px, 2vw, 21px); font-weight: 900; color: var(--primary); margin-bottom: 20px; }
-        .info-box p { font-size: clamp(14px, 2vw, 18px); font-weight: 700; color: var(--text-main); line-height: 1.6; }
-
-        footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 100px 24px; font-size: 15px; border-top: 1.5px solid rgba(255,255,255,0.05); }
+        footer { background: var(--primary); color: rgba(255,255,255,0.6); text-align: center; padding: 120px 24px; font-size: 15px; border-top: 1.5px solid rgba(255,255,255,0.05); }
         .footer-admin-btn { margin-top: 45px; padding: 18px 45px; background: rgba(255,255,255,0.08); border-radius: 100px; cursor: pointer; display: inline-block; color: #fff; font-weight: 900; transition: 0.3s; border: 1.5px solid rgba(255,255,255,0.15); }
-        .footer-admin-btn:hover { background: var(--accent); color: var(--primary); transform: translateY(-3px); }
+
+        #lightbox { position: fixed; inset: 0; background: rgba(2, 12, 27, 0.98); backdrop-filter: blur(25px); z-index: 10000; display: none; align-items: center; justify-content: center; cursor: zoom-out; }
+        #lightbox img { max-width: 92%; max-height: 92%; border-radius: 16px; box-shadow: 0 60px 140px rgba(0,0,0,0.9); transition: var(--transition); }
+        #lightbox.open { display: flex; }
 
         /* Admin UI */
-        #admin-panel { 
-            position: fixed; top: 0; right: -100%; width: min(600px, 100vw); height: 100vh; 
-            background: #fff; z-index: 11000; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); 
-            box-shadow: -40px 0 120px rgba(0,0,0,0.3); overflow-y: auto; display: none; 
-        }
+        #admin-panel { position: fixed; top: 0; right: -100%; width: min(600px, 100vw); height: 100vh; background: #fff; z-index: 11000; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -40px 0 120px rgba(0,0,0,0.3); overflow-y: auto; display: none; }
         #admin-panel.open { right: 0; display: block; }
         .admin-header { position: sticky; top: 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); padding: 35px 45px; border-bottom: 2px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; z-index: 10001; }
         .admin-close-x { font-size: 46px; cursor: pointer; color: #cbd5e1; transition: 0.3s; line-height: 1; }
         .admin-close-x:hover { color: var(--primary); transform: rotate(90deg); }
         .admin-group { margin-bottom: 45px; background: #f8fafc; padding: 35px; border-radius: 24px; border: 1px solid #e2e8f0; }
         .admin-group h4 { font-size: 16px; font-weight: 900; margin-bottom: 25px; color: var(--primary); border-left: 6px solid var(--accent); padding-left: 18px; }
-        .admin-input { width: 100%; padding: 18px; border: 1.5px solid #e2e8f0; border-radius: 14px; font-family: inherit; font-size: 15px; margin-bottom: 12px; outline: none; }
+        .admin-input { width: 100%; padding: 18px; border: 1.5px solid #e2e8f0; border-radius: 14px; font-family: inherit; font-size: 15px; margin-bottom: 12px; outline: none; transition: 0.3s; }
+        .admin-input.error { border-color: #ff4d4d !important; background-color: #fff5f5 !important; }
         .style-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 10px; margin-top: 12px; padding: 15px; background: #fff; border-radius: 14px; border: 1px solid #eee; }
         .add-btn { width: 100%; padding: 18px; background: #f1f5f9; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; margin-top: 15px; color: var(--primary); transition: 0.2s; }
         .add-btn:hover { background: var(--accent); }
@@ -216,13 +204,12 @@
         @media (max-width: 950px) {
             .nav-menu { display: none; } .hamburger { display: flex; }
             .intro-wrapper { grid-template-columns: 1fr; }
-            .info-grid { grid-template-columns: 1fr; gap: 32px; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .info-grid { grid-template-columns: 1fr; gap: 24px; }
+            .news-grid, .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
         }
         @media (max-width: 550px) {
-            .gallery-grid { grid-template-columns: 1fr; }
             .intro-text { padding: 45px 24px; }
-            #hero-title { letter-spacing: -1px; margin-bottom: 30px; }
+            #hero-title { letter-spacing: -1.5px; }
             .btn-main { padding: 22px 48px; width: 100%; justify-content: center; }
             .logo { font-size: 0.85rem; }
         }
@@ -232,7 +219,7 @@
 
 <nav id="main-nav">
     <div class="nav-container">
-        <a href="#" class="logo">🎊 WFIRM KOREA<br>추진사무국 🎊</a>
+        <a href="#" class="logo">🎊 WFIRM KOREA HUB 🎊</a>
         <ul class="nav-menu">
             <li><a href="#about">소개</a></li>
             <li><a href="#news">최신동향</a></li>
@@ -255,10 +242,7 @@
 </div>
 
 <header id="hero">
-    <div class="hero-slides">
-        <div class="slide" id="hero-slide-1"></div>
-        <div class="slide" id="hero-slide-2"></div>
-    </div>
+    <div class="hero-slides" id="hero-slides-container"></div>
     <div class="hero-overlay"></div>
     <p id="hero-subtitle" class="reveal"></p>
     <h1 id="hero-title" class="reveal"></h1>
@@ -305,7 +289,6 @@
     </div>
     <!-- 시설 사진 직결 -->
     <div class="gallery-grid" id="office-container"></div>
-    <div id="office-pagination" style="display:flex; justify-content:center; gap:12px; margin-top:45px;"></div>
 </section>
 
 <footer>
@@ -315,13 +298,13 @@
 </footer>
 
 <div id="lightbox" onclick="this.classList.remove('open')">
-    <img id="lightbox-img" src="" alt="확대">
+    <img id="lightbox-img" src="" alt="확대 이미지">
 </div>
 
 <!-- Admin Login Overlay -->
 <div id="login-overlay">
     <div class="login-box">
-        <h3 style="font-weight:900; font-size:28px; margin-bottom:35px; letter-spacing:-1px; color:var(--primary);">System Authentication</h3>
+        <h3 style="font-weight:900; font-size:28px; margin-bottom:35px; color:var(--primary);">System Authentication</h3>
         <input type="text" id="login-id" class="admin-input" placeholder="Admin ID">
         <input type="password" id="login-pw" class="admin-input" placeholder="Security Key">
         <button id="btn-login-submit" class="admin-save-btn" style="margin-top:20px; width:100%;">Secure Sign In &rarr;</button>
@@ -337,44 +320,46 @@
         <span class="admin-close-x" id="btn-admin-close-x" style="cursor:pointer;font-size:36px;">&times;</span>
     </div>
     <div style="padding:45px;">
-        <div class="admin-group">
+        
+        <div class="admin-group" id="admin-hero-group">
             <h4>1. 비주얼 테마 및 배경 설정</h4>
-            <label style="font-size:11px; display:block; margin-bottom:8px; font-weight:800; color:var(--text-muted);">히어로 배경 이미지 1 URL</label>
-            <input type="text" id="cfg-bg-img" class="admin-input">
-            <label style="font-size:11px; display:block; margin-bottom:8px; font-weight:800; color:var(--text-muted);">히어로 배경 이미지 2 URL (교차용)</label>
-            <input type="text" id="cfg-bg-img-2" class="admin-input">
-            <label style="font-size:11px; display:block; margin-bottom:8px; font-weight:800; color:var(--text-muted);">유튜브 비디오 ID</label>
-            <input type="text" id="cfg-yt-id" class="admin-input">
+            <div id="adm-hero-list"></div>
+            <button class="add-btn" onclick="addSlot('h')">+ 메인 배경 이미지 추가 (무제한 교차 애니메이션)</button>
+            <label style="font-size:12px; display:block; margin-top:25px; margin-bottom:8px; font-weight:800; color:var(--text-muted);">유튜브 비디오 ID</label>
+            <input type="text" id="cfg-yt-id" class="admin-input" placeholder="예: VHE52iEaPJ4">
         </div>
         
         <div id="admin-text-inputs"></div>
-
+        
         <div class="admin-group" id="admin-ceremony-group">
-            <h4>3. 📷 WFIRM Korea 사진 관리</h4>
+            <h4>3. 📷 사진첩 관리 (행사용)</h4>
             <div id="adm-img-list-c"></div>
-            <button class="add-btn" onclick="addSlot('c')">+ 사진 슬롯 무제한 추가</button>
+            <button class="add-btn" onclick="addSlot('c')">+ 사진 슬롯 추가</button>
         </div>
-
+        
         <div class="admin-group" id="admin-office-group">
-            <h4>4. 🏢 사무국 시설 사진 관리</h4>
+            <h4>4. 🏢 사무국 시설 관리</h4>
             <div id="adm-img-list-o"></div>
-            <button class="add-btn" onclick="addSlot('o')">+ 사진 슬롯 무제한 추가</button>
+            <button class="add-btn" onclick="addSlot('o')">+ 사진 슬롯 추가</button>
         </div>
-
+        
         <div class="admin-group">
             <h4>5. 🔬 최신 동향 관리</h4>
+            <p style="font-size:12px; color:var(--accent-purple); margin-bottom:10px;">날짜는 반드시 YYYY-MM-DD 형식으로 입력하십시오.</p>
             <div id="adm-news-list"></div>
-            <button class="add-btn" onclick="addSlot('n')">+ 뉴스 카드 무제한 추가</button>
+            <button class="add-btn" onclick="addSlot('n')">+ 뉴스 카드 추가</button>
         </div>
 
         <button class="admin-save-btn" id="btn-final-save">Deploy Global Sync</button>
-        <p id="save-status" style="display:none; text-align:center; font-weight:900; color:var(--accent-purple); margin-top:20px;"></p>
+        <p id="save-status" style="display:none; text-align:center; font-weight:900; margin-top:15px; padding:15px; border-radius:12px;"></p>
         <button id="btn-admin-close-bottom" style="width:100%; padding:22px; background:#f1f5f9; border:none; border-radius:20px; cursor:pointer; font-weight:800; color:#64748b; margin-top:20px;">Exit Hub</button>
     </div>
 </div>
 
 <script>
-/* Firebase Core Integration */
+/* ============================================================
+   Firebase Core Integration
+============================================================ */
 const firebaseConfig = {
     apiKey:            "AIzaSyAkCKsDWX2ctlSYqGdZGF5URg0-BjmXWuk",
     authDomain:        "wfirm-korea-61be3.firebaseapp.com",
@@ -388,12 +373,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-const NEWS_PER_PAGE = 5;
+const NEWS_PER_PAGE = 6;
 const GALLERY_PER_PAGE = 6;
 let appState = {};
+let heroSliderInterval = null;
 
+/* 복구된 원본 데이터셋 (스타일 제어 포함) */
 const textFields = [
-    { id:'heroTitle',    targetId:'hero-title', label:'메인 타이틀', h:60, def:'<span>첨단재생의료산업</span><br><span class="hl">WFIRM Korea</span> <span>추진사무국</span>', sz:'56px', col:'#ffffff', align:'center', font:"'Inter',sans-serif" },
+    { id:'heroTitle',    targetId:'hero-title', label:'메인 타이틀', h:60, def:'<span>첨단재생의료산업</span><br><span class="hl">WFIRM Korea</span> <span>추진사무국</span>', sz:'52px', col:'#ffffff', align:'center', font:"'Inter',sans-serif" },
     { id:'heroSub',      targetId:'hero-subtitle', label:'서브 타이틀', h:40, def:'INNOVATIVE BIO-INDUSTRY HUB', sz:'18px', col:'#64ffda', align:'center', font:"'Inter',sans-serif" },
     { id:'introBody',    targetId:'intro-body', label:'소개 본문', h:120, def:'<span class=\"hl-dark\" style=\"font-size:24px; color:#0044cc; line-height:1.4;\">\"경상북도가 글로벌 재생의료의 표준을 세웁니다.\"</span>\n\n안녕하십니까? WFIRM Korea 추진 사무국 방문을 진심으로 환영합니다.\n\n경상북도가 글로벌 재생의료 거점으로 도약하기 위한 첫 단추인 <span class=\"hl-dark\">\'WFIRM Korea 추진 사무국\'</span>이 대한민국 바이오 산업의 혁신을 주도합니다.\n\n첨단재생의료는 인류의 난치병 극복을 위한 꿈의 기술이자, 국가의 미래를 결정지을 핵심 전략 산업입니다. 경상북도는 세계 최고 수준의 재생의학 역량을 보유한 <span class=\"hl-dark\">\'미국 웨이크포레스트 재생의학연구소(WFIRM)\'</span>와 전략적 파트너십을 구축하여, 대한민국을 넘어 아시아를 대표하는 재생의료 허브로 도약하고자 합니다.\n\n경북의 탄탄한 바이오 인프라와 글로벌 기술력이 만나는 이곳에서, 미래 산업의 새로운 이정표를 세우겠습니다. 여러분의 적극적인 성원과 협력을 기대합니다.\n\n<span style=\"display:block;text-align:right;font-weight:900;color:var(--primary);margin-top:25px;font-size:18px;\">- WFIRM Korea 추진 사무국 -</span>', sz:'19px', col:'#0a192f', align:'left', font:"'Noto Sans KR',sans-serif" },
     { id:'secAbout',     targetId:'secAbout-title', label:'사무국 소개 제목', h:40, def:'🎤 사무국 소개', sz:'36px', col:'#0a192f', align:'center', font:"'Noto Sans KR',sans-serif" },
@@ -423,7 +410,14 @@ async function loadData() {
 function initDefaultState() {
     const BASE = 'https://github.com/giboffice200407-cloud/wfirm-korea/blob/main/src/';
     appState = {
-        theme: { accent:'#64ffda', primary:'#0a192f', bgImage:'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=2000', bgImage2:'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=2000' },
+        theme: { 
+            accent:'#64ffda', primary:'#0a192f', 
+            bgImages: [
+                'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=2000',
+                'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=2000',
+                'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=2000'
+            ] 
+        },
         content: { ytId: 'VHE52iEaPJ4' },
         images: { ceremony: [], ceremonyDesc: [], office: [], officeDesc: [] },
         news: []
@@ -434,9 +428,40 @@ function initDefaultState() {
 }
 
 function renderAll() {
-    document.getElementById('hero-slide-1').style.backgroundImage = `url('${appState.theme.bgImage}')`;
-    document.getElementById('hero-slide-2').style.backgroundImage = `url('${appState.theme.bgImage2 || appState.theme.bgImage}')`;
+    // Dynamic Hero Backgrounds Generation (Ken Burns Engine)
+    const heroSlidesContainer = document.getElementById('hero-slides-container');
+    let bgUrls = appState.theme.bgImages || [];
     
+    // Legacy support handling
+    if (bgUrls.length === 0 && appState.theme.bgImage) {
+        bgUrls.push(appState.theme.bgImage);
+        if (appState.theme.bgImage2) bgUrls.push(appState.theme.bgImage2);
+    }
+    if (bgUrls.length === 0) bgUrls.push('https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=2000');
+
+    if(heroSlidesContainer) {
+        heroSlidesContainer.innerHTML = '';
+        bgUrls.forEach((url, index) => {
+            const div = document.createElement('div');
+            div.className = index === 0 ? 'slide active' : 'slide';
+            div.style.backgroundImage = `url('${url}')`;
+            heroSlidesContainer.appendChild(div);
+        });
+
+        // Initialize cross-fade interval
+        if (heroSliderInterval) clearInterval(heroSliderInterval);
+        if (bgUrls.length > 1) {
+            heroSliderInterval = setInterval(() => {
+                const slides = document.querySelectorAll('#hero-slides-container .slide');
+                if (!slides.length) return;
+                let activeIdx = Array.from(slides).findIndex(s => s.classList.contains('active'));
+                slides[activeIdx].classList.remove('active');
+                let nextIdx = (activeIdx + 1) % slides.length;
+                slides[nextIdx].classList.add('active');
+            }, 6000); // Cross-fade every 6 seconds
+        }
+    }
+
     textFields.forEach(f => {
         const el = document.getElementById(f.targetId);
         const o = appState.content[f.id];
@@ -445,143 +470,326 @@ function renderAll() {
             el.style.fontSize = o.sz; el.style.color = o.col; el.style.textAlign = o.align; el.style.fontFamily = o.font;
         }
     });
-    document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${appState.content.ytId}?rel=0`;
+    
+    const yt = document.getElementById('youtube-iframe');
+    if(yt) yt.src = `https://www.youtube.com/embed/${appState.content.ytId}?rel=0`;
+    
     renderNews(1);
-    renderGallery(1, 'ceremony', 'ceremony-container', 'gallery-pagination', 'gallery-page-stat');
-    renderGallery(1, 'office', 'office-container', 'office-pagination', 'office-page-stat');
+    renderGallery(1, 'ceremony', 'ceremony-container', 'gallery-pagination');
+    renderGallery(1, 'office', 'office-container', null);
 }
 
 function renderNews(page) {
     const container = document.getElementById('news-container');
-    const valid = appState.news.filter(n => n && n.title && n.title.trim() !== '');
-    const items = valid.slice((page-1)*NEWS_PER_PAGE, page*NEWS_PER_PAGE);
+    if(!container) return;
+    
+    const newsList = [...(appState.news || [])].filter(n => n && n.title && n.title.trim());
+    
+    newsList.sort((a, b) => {
+        const dateA = a.date ? a.date.replace(/[^0-9]/g, '') : '0';
+        const dateB = b.date ? b.date.replace(/[^0-9]/g, '') : '0';
+        return parseInt(dateB) - parseInt(dateA);
+    });
+
+    const start = (page - 1) * NEWS_PER_PAGE;
+    const items = newsList.slice(start, start + NEWS_PER_PAGE);
+    
     container.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding:60px; font-weight:800;">현재 업데이트된 동향 정보가 없습니다.</p>';
     items.forEach(n => {
         const card = document.createElement('div');
         card.className = 'news-card';
         if(n.url) card.onclick = () => window.open(n.url, '_blank');
-        card.innerHTML = `<div class="news-meta"><span class="date">${n.date||'2000.00.00.'}</span><span class="source">${n.tag||'UPDATE'}</span></div><div class="news-title">${n.title}</div>`;
+        card.innerHTML = `<div class="news-meta"><span class="date">${n.date||'2000-00-00'}</span><span class="source">${n.tag||'UPDATE'}</span></div><div class="news-title">${n.title}</div>`;
         container.appendChild(card);
     });
-    const total = Math.ceil(valid.length / NEWS_PER_PAGE);
+
+    const total = Math.ceil(newsList.length / NEWS_PER_PAGE);
     const pagin = document.getElementById('news-pagination');
-    pagin.innerHTML = '';
-    for(let i=1; i<=total; i++) {
-        const btn = document.createElement('button'); btn.innerText = i; 
-        btn.style = "width:42px; height:42px; border-radius:12px; border:1.5px solid #eee; background:#fff; cursor:pointer; font-weight:800;";
-        if(i===page) { btn.style.background = "var(--primary)"; btn.style.color = "var(--accent)"; }
-        btn.onclick = () => { renderNews(i); document.getElementById('news').scrollIntoView(); };
-        pagin.appendChild(btn);
+    if(pagin) {
+        pagin.innerHTML = '';
+        if(total > 1) {
+            for(let i=1; i<=total; i++) {
+                const btn = document.createElement('button'); btn.innerText = i; 
+                btn.className = 'page-btn' + (i===page?' active':'');
+                btn.onclick = () => { renderNews(i); document.getElementById('news').scrollIntoView({behavior:'smooth', block:'start'}); };
+                pagin.appendChild(btn);
+            }
+        }
     }
 }
 
-function renderGallery(page, key, containerId, paginId, statId) {
+function renderGallery(page, key, containerId, paginId) {
     const container = document.getElementById(containerId);
-    const valid = appState.images[key].map((url, i) => ({url, desc: appState.images[key+'Desc'][i]})).filter(x => x && x.url && x.url.trim());
-    const items = valid.slice((page-1)*GALLERY_PER_PAGE, page*GALLERY_PER_PAGE);
-    container.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding:40px;">사진 로딩 중...</p>';
+    if(!container) return;
+
+    const sourceImages = appState.images[key] || [];
+    const sourceDesc = appState.images[`${key}Desc`] || [];
+    const valid = sourceImages.map((url, i) => ({ url, desc: sourceDesc[i] })).filter(x => x && x.url && x.url.trim());
+    const items = (key === 'office') ? valid : valid.slice((page-1)*GALLERY_PER_PAGE, page*GALLERY_PER_PAGE);
+    
+    container.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted); padding:40px;">사진 준비 중</p>';
     items.forEach(item => {
         const div = document.createElement('div');
         div.className = 'gallery-item';
-        div.onclick = () => { document.getElementById('lightbox-img').src=item.url; document.getElementById('lightbox').classList.add('open'); };
-        div.innerHTML = `<div class="gallery-img-wrap"><img src="${item.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x450?text=Error'"></div><div class="gallery-desc">${item.desc}</div>`;
+        div.onclick = () => { 
+            const lbImg = document.getElementById('lightbox-img');
+            const lb = document.getElementById('lightbox');
+            if(lbImg && lb) { lbImg.src = item.url; lb.classList.add('open'); }
+        };
+        div.innerHTML = `<div class="gallery-img-wrap"><img src="${item.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x450?text=Error'"></div><div class="gallery-desc">${item.desc || ''}</div>`;
         container.appendChild(div);
     });
+
+    if(paginId) {
+        const total = Math.ceil(valid.length / GALLERY_PER_PAGE);
+        const pagin = document.getElementById(paginId);
+        if(pagin) {
+            pagin.innerHTML = '';
+            if(total > 1) {
+                for(let i=1; i<=total; i++) {
+                    const btn = document.createElement('button'); btn.innerText = i; 
+                    btn.className = 'page-btn' + (i===page?' active':'');
+                    btn.onclick = () => renderGallery(i, key, containerId, paginId);
+                    pagin.appendChild(btn);
+                }
+            }
+        }
+    }
 }
 
-function addSlot(type) {
-    const list = type === 'c' ? 'adm-img-list-c' : type === 'o' ? 'adm-img-list-o' : 'adm-news-list';
+/* Global Scope Function for inline HTML execution */
+window.addSlot = function(type) {
+    const list = type === 'c' ? 'adm-img-list-c' : type === 'o' ? 'adm-img-list-o' : type === 'n' ? 'adm-news-list' : 'adm-hero-list';
+    const container = document.getElementById(list);
+    if(!container) return;
+
     const div = document.createElement('div');
-    div.style = "margin-bottom:12px; padding:20px; background:#fff; border-radius:16px; border:1.5px solid #e2e8f0;";
+    div.style = "position:relative; margin-bottom:12px; padding:25px; background:#fff; border-radius:16px; border:1.5px solid #e2e8f0;";
+    
+    let content = '';
     if(type==='n') {
-        div.innerHTML = `<div style="display:flex; gap:10px;"><input type="text" class="admin-input news-date" placeholder="2000.00.00."><input type="text" class="admin-input news-tag" placeholder="출처/분류"></div><input type="text" class="admin-input news-title" placeholder="뉴스 제목"><input type="text" class="admin-input news-url" placeholder="원본 기사 링크 URL">`;
+        content = `<div style="display:flex; gap:10px;"><input type="text" class="admin-input news-date" placeholder="2000-00-00"><input type="text" class="admin-input news-tag" placeholder="출처/분류"></div><input type="text" class="admin-input news-title" placeholder="뉴스 제목"><input type="text" class="admin-input news-url" placeholder="원본 링크 URL" style="margin-bottom:0;">`;
+    } else if(type==='h') {
+        content = `<input type="text" class="admin-input hero-bg-url" placeholder="배경 이미지 URL (GitHub Raw 주소)" style="margin-bottom:0;">`;
     } else {
-        div.innerHTML = `<input type="text" class="admin-input img-url" placeholder="GitHub Raw URL 주소"><input type="text" class="admin-input img-desc" placeholder="사진 아래에 보일 캡션">`;
+        content = `<input type="text" class="admin-input img-url" placeholder="GitHub Raw URL 주소"><input type="text" class="admin-input img-desc" placeholder="사진 캡션" style="margin-bottom:0;">`;
     }
-    document.getElementById(list).appendChild(div);
-}
+    
+    // Add Universal Delete Button
+    content += `<button type="button" onclick="this.parentElement.remove()" style="position:absolute; top:12px; right:15px; background:none; border:none; color:#ff4d4d; font-size:22px; cursor:pointer;" title="항목 삭제"><i class="fa-solid fa-circle-xmark"></i></button>`;
+    
+    div.innerHTML = content;
+    container.appendChild(div);
+};
 
 function syncToAdmin() {
-    document.getElementById('cfg-bg-img').value = appState.theme.bgImage || '';
-    document.getElementById('cfg-bg-img-2').value = appState.theme.bgImage2 || '';
-    document.getElementById('cfg-yt-id').value = appState.content.ytId || '';
+    const ytId = document.getElementById('cfg-yt-id');
+    if (ytId) ytId.value = appState.content.ytId || '';
+    
+    // Dynamic Hero Backgrounds
+    const heroList = document.getElementById('adm-hero-list');
+    if (heroList) {
+        heroList.innerHTML = '';
+        let heroBgs = appState.theme.bgImages || [];
+        if (heroBgs.length === 0 && appState.theme.bgImage) {
+            heroBgs.push(appState.theme.bgImage);
+            if (appState.theme.bgImage2) heroBgs.push(appState.theme.bgImage2);
+        }
+        heroBgs.forEach(url => {
+            window.addSlot('h');
+            const g = heroList.lastChild;
+            if(g) g.querySelector('.hero-bg-url').value = url;
+        });
+        if(heroList.children.length === 0) window.addSlot('h'); // default 1 slot
+    }
+
     const tc = document.getElementById('admin-text-inputs');
-    tc.innerHTML = '<h4>2. 텍스트 및 스타일 통합 관리</h4>';
-    textFields.forEach(f => {
-        const o = appState.content[f.id];
-        tc.innerHTML += `<div class="admin-group">
-            <label style="font-size:13px; font-weight:900;">${f.label}</label>
-            <textarea id="adm-txt-${f.id}" class="admin-input" style="height:110px; margin-top:10px;">${o.text}</textarea>
-            <div class="style-grid">
-                <div><label>폰트</label><select id="adm-font-${f.id}" class="admin-input"><option value="'Noto Sans KR',sans-serif">고딕</option><option value="'Inter', sans-serif">테크</option></select></div>
-                <div><label>크기</label><input type="text" id="adm-sz-${f.id}" class="admin-input" value="${o.sz}"></div>
-                <div><label>색상</label><input type="color" id="adm-col-${f.id}" style="width:100%;height:35px;border:none;" value="${o.col}"></div>
-                <div><label>정렬</label><select id="adm-align-${f.id}" class="admin-input"><option value="left" ${o.align==='left'?'selected':''}>좌</option><option value="center" ${o.align==='center'?'selected':''}>중</option><option value="right" ${o.align==='right'?'selected':''}>우</option></select></div>
-            </div>
-        </div>`;
-    });
-    document.getElementById('adm-img-list-c').innerHTML = '';
-    if(appState.images.ceremony) {
-        appState.images.ceremony.forEach((url, i) => { addSlot('c'); const g = document.getElementById('adm-img-list-c').lastChild; g.querySelector('.img-url').value = url; g.querySelector('.img-desc').value = appState.images.ceremonyDesc[i] || ''; });
+    if(tc) {
+        tc.innerHTML = '<h4>2. 텍스트 및 스타일 통합 관리</h4>';
+        textFields.forEach(f => {
+            const o = appState.content[f.id];
+            tc.innerHTML += `<div class="admin-group"><label style="font-size:13px; font-weight:900;">${f.label}</label><textarea id="adm-txt-${f.id}" class="admin-input" style="height:120px; margin-top:10px;">${o.text}</textarea><div class="style-grid"><div><label style="font-size:11px;">폰트</label><select id="adm-font-${f.id}" class="admin-input"><option value="'Noto Sans KR',sans-serif">고딕</option><option value="'Inter', sans-serif">테크</option></select></div><div><label style="font-size:11px;">크기</label><input type="text" id="adm-sz-${f.id}" class="admin-input" value="${o.sz}"></div><div><label style="font-size:11px;">색상</label><input type="color" id="adm-col-${f.id}" style="width:100%;height:35px;border:none;" value="${o.col}"></div><div><label style="font-size:11px;">정렬</label><select id="adm-align-${f.id}" class="admin-input"><option value="left" ${o.align==='left'?'selected':''}>좌</option><option value="center" ${o.align==='center'?'selected':''}>중</option><option value="right" ${o.align==='right'?'selected':''}>우</option></select></div></div></div>`;
+        });
     }
-    document.getElementById('adm-img-list-o').innerHTML = '';
-    if(appState.images.office) {
-        appState.images.office.forEach((url, i) => { addSlot('o'); const g = document.getElementById('adm-img-list-o').lastChild; g.querySelector('.img-url').value = url; g.querySelector('.img-desc').value = appState.images.officeDesc[i] || ''; });
+    
+    const imgListC = document.getElementById('adm-img-list-c');
+    if(imgListC) {
+        imgListC.innerHTML = '';
+        if(appState.images.ceremony) {
+            appState.images.ceremony.forEach((url, i) => { 
+                window.addSlot('c'); const g = imgListC.lastChild; 
+                if(g) { g.querySelector('.img-url').value = url || ''; g.querySelector('.img-desc').value = appState.images.ceremonyDesc[i] || ''; }
+            });
+        }
     }
-    document.getElementById('adm-news-list').innerHTML = '';
-    if(appState.news) {
-        appState.news.forEach(n => { addSlot('n'); const g = document.getElementById('adm-news-list').lastChild; g.querySelector('.news-date').value = n.date || ''; g.querySelector('.news-tag').value = n.tag || ''; g.querySelector('.news-title').value = n.title || ''; g.querySelector('.news-url').value = n.url || ''; });
+
+    const imgListO = document.getElementById('adm-img-list-o');
+    if(imgListO) {
+        imgListO.innerHTML = '';
+        if(appState.images.office) {
+            appState.images.office.forEach((url, i) => { 
+                window.addSlot('o'); const g = imgListO.lastChild; 
+                if(g) { g.querySelector('.img-url').value = url || ''; g.querySelector('.img-desc').value = appState.images.officeDesc[i] || ''; }
+            });
+        }
+    }
+
+    const newsList = document.getElementById('adm-news-list');
+    if(newsList) {
+        newsList.innerHTML = '';
+        if(appState.news) {
+            appState.news.forEach(n => { 
+                window.addSlot('n'); const g = newsList.lastChild; 
+                if(g) { g.querySelector('.news-date').value = n.date || ''; g.querySelector('.news-tag').value = n.tag || ''; g.querySelector('.news-title').value = n.title || ''; g.querySelector('.news-url').value = n.url || ''; }
+            });
+        }
     }
 }
 
-/* UI Controllers */
-const hamburger = document.getElementById('hamburger-btn');
-const menu = document.getElementById('mobile-menu');
+/* DOM Safe UI Initialization */
+document.addEventListener('DOMContentLoaded', () => {
+    const adminTrigger = document.getElementById('admin-btn-trigger');
+    if (adminTrigger) adminTrigger.onclick = () => {
+        const overlay = document.getElementById('login-overlay');
+        if (overlay) overlay.style.display = 'flex';
+    };
 
-function toggleMobileMenu() {
-    hamburger.classList.toggle('active');
-    menu.classList.toggle('open');
-}
+    const closeX = document.getElementById('btn-admin-close-x');
+    if (closeX) closeX.onclick = () => {
+        const panel = document.getElementById('admin-panel');
+        if (panel) panel.classList.remove('open');
+    };
 
-hamburger.onclick = toggleMobileMenu;
+    const closeBottom = document.getElementById('btn-admin-close-bottom');
+    if (closeBottom) closeBottom.onclick = () => {
+        const panel = document.getElementById('admin-panel');
+        if (panel) panel.classList.remove('open');
+    };
 
-document.querySelectorAll('.ml').forEach(link => {
-    link.onclick = () => {
-        hamburger.classList.remove('active');
-        menu.classList.remove('open');
+    const loginSubmit = document.getElementById('btn-login-submit');
+    if (loginSubmit) loginSubmit.onclick = () => {
+        const loginId = document.getElementById('login-id');
+        const loginPw = document.getElementById('login-pw');
+        
+        if (loginId && loginPw && loginId.value === 'admin' && loginPw.value === 'me0979') {
+            const overlay = document.getElementById('login-overlay');
+            if (overlay) overlay.style.display = 'none';
+            const panel = document.getElementById('admin-panel');
+            if (panel) {
+                panel.style.display = 'block';
+                setTimeout(() => panel.classList.add('open'), 50);
+            }
+        } else {
+            const errorMsg = document.getElementById('login-error');
+            if (errorMsg) errorMsg.style.display = 'block';
+        }
+    };
+
+    // Firebase Data Deployment Logic
+    const finalSaveBtn = document.getElementById('btn-final-save');
+    if (finalSaveBtn) finalSaveBtn.onclick = async () => {
+        const statusEl = document.getElementById('save-status');
+        
+        /* 1. Date Format Validation (No Alert) */
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        let dateError = false;
+        document.querySelectorAll('.news-date').forEach(input => {
+            if(input.value.trim() && !dateRegex.test(input.value.trim())) {
+                dateError = true;
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        });
+
+        if(dateError) { 
+            if(statusEl) {
+                statusEl.innerText = '❌ 날짜 형식 오류 (YYYY-MM-DD 형식으로 입력하세요)';
+                statusEl.style.display = 'block';
+                statusEl.style.background = '#fff5f5';
+                statusEl.style.color = '#ff4d4d';
+                setTimeout(() => statusEl.style.display = 'none', 4000);
+            }
+            return; 
+        }
+
+        if(statusEl) {
+            statusEl.innerText = 'Synchronizing...'; 
+            statusEl.style.display = 'block';
+            statusEl.style.background = 'transparent';
+            statusEl.style.color = 'var(--accent-purple)';
+        }
+
+        // Dynamic Hero Backgrounds Save
+        appState.theme.bgImages = [];
+        document.querySelectorAll('#adm-hero-list div').forEach(div => {
+            const url = div.querySelector('.hero-bg-url');
+            if(url && url.value.trim()) appState.theme.bgImages.push(url.value.trim());
+        });
+        
+        const ytId = document.getElementById('cfg-yt-id');
+        if (ytId) appState.content.ytId = ytId.value;
+
+        textFields.forEach(f => {
+            const txt = document.getElementById(`adm-txt-${f.id}`);
+            const sz = document.getElementById(`adm-sz-${f.id}`);
+            const col = document.getElementById(`adm-col-${f.id}`);
+            const align = document.getElementById(`adm-align-${f.id}`);
+            const font = document.getElementById(`adm-font-${f.id}`);
+            
+            if(txt && sz && col && align && font) {
+                appState.content[f.id] = { text: txt.value, sz: sz.value, col: col.value, align: align.value, font: font.value };
+            }
+        });
+
+        appState.images.ceremony = []; appState.images.ceremonyDesc = [];
+        document.querySelectorAll('#adm-img-list-c div').forEach(div => { 
+            const url = div.querySelector('.img-url'); const desc = div.querySelector('.img-desc');
+            if(url && url.value.trim()){ appState.images.ceremony.push(url.value.trim()); appState.images.ceremonyDesc.push(desc ? desc.value : ''); } 
+        });
+
+        appState.images.office = []; appState.images.officeDesc = [];
+        document.querySelectorAll('#adm-img-list-o div').forEach(div => { 
+            const url = div.querySelector('.img-url'); const desc = div.querySelector('.img-desc');
+            if(url && url.value.trim()){ appState.images.office.push(url.value.trim()); appState.images.officeDesc.push(desc ? desc.value : ''); } 
+        });
+
+        appState.news = [];
+        document.querySelectorAll('#adm-news-list div').forEach(div => { 
+            const title = div.querySelector('.news-title'); const date = div.querySelector('.news-date');
+            const tag = div.querySelector('.news-tag'); const url = div.querySelector('.news-url');
+            if(title && title.value.trim()) {
+                appState.news.push({ date: date ? date.value.trim() : '', tag: tag ? tag.value.trim() : '', title: title.value.trim(), url: url ? url.value.trim() : '' }); 
+            }
+        });
+        
+        try { 
+            await db.ref('wfirm').set(appState); 
+            if(statusEl) {
+                statusEl.innerText = '✅ Global Sync Completed!'; 
+                statusEl.style.color = 'var(--primary)';
+            }
+            renderAll(); 
+        } catch(e) { 
+            if(statusEl) {
+                statusEl.innerText = '❌ Access Denied'; 
+                statusEl.style.color = '#ff4d4d';
+            }
+        }
+        setTimeout(() => { if(statusEl) statusEl.style.display = 'none'; }, 3000);
+    };
+
+    // Mobile Hamburger Logic
+    const hamburger = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (hamburger && menu) {
+        hamburger.onclick = () => { hamburger.classList.toggle('active'); menu.classList.toggle('open'); };
+        document.querySelectorAll('.ml').forEach(link => { link.onclick = () => { hamburger.classList.remove('active'); menu.classList.remove('open'); }; });
     }
 });
 
-document.getElementById('admin-btn-trigger').onclick = () => document.getElementById('login-overlay').style.display = 'flex';
-document.getElementById('btn-admin-close-x').onclick = () => document.getElementById('admin-panel').classList.remove('open');
-document.getElementById('btn-admin-close-bottom').onclick = () => document.getElementById('admin-panel').classList.remove('open');
-
-document.getElementById('btn-login-submit').onclick = () => {
-    if(document.getElementById('login-id').value === 'admin' && document.getElementById('login-pw').value === 'me0979') {
-        document.getElementById('login-overlay').style.display = 'none';
-        const p = document.getElementById('admin-panel'); p.style.display = 'block'; setTimeout(() => p.classList.add('open'), 50);
-    } else document.getElementById('login-error').style.display = 'block';
-};
-
-document.getElementById('btn-final-save').onclick = async () => {
-    const s = document.getElementById('save-status'); s.innerText = 'Global Cloud Syncing...'; s.style.display = 'block';
-    appState.theme.bgImage = document.getElementById('cfg-bg-img').value;
-    appState.theme.bgImage2 = document.getElementById('cfg-bg-img-2').value;
-    appState.content.ytId = document.getElementById('cfg-yt-id').value;
-    textFields.forEach(f => {
-        appState.content[f.id] = { text: document.getElementById(`adm-txt-${f.id}`).value, sz: document.getElementById(`adm-sz-${f.id}`).value, col: document.getElementById(`adm-col-${f.id}`).value, align: document.getElementById(`adm-align-${f.id}`).value, font: document.getElementById(`adm-font-${f.id}`).value };
-    });
-    appState.images.ceremony = []; appState.images.ceremonyDesc = [];
-    document.querySelectorAll('#adm-img-list-c div').forEach(div => { const url = div.querySelector('.img-url'); if(url && url.value.trim()){ appState.images.ceremony.push(url.value); appState.images.ceremonyDesc.push(div.querySelector('.img-desc').value); } });
-    appState.images.office = []; appState.images.officeDesc = [];
-    document.querySelectorAll('#adm-img-list-o div').forEach(div => { const url = div.querySelector('.img-url'); if(url && url.value.trim()){ appState.images.office.push(url.value); appState.images.officeDesc.push(div.querySelector('.img-desc').value); } });
-    appState.news = [];
-    document.querySelectorAll('#adm-news-list div').forEach(div => { const title = div.querySelector('.news-title'); if(title && title.value.trim()) appState.news.push({ date: div.querySelector('.news-date').value, tag: div.querySelector('.news-tag').value, title: title.value, url: div.querySelector('.news-url').value }); });
-    try { await db.ref('wfirm').set(appState); s.innerText = '✅ Global Deployment Successful!'; renderAll(); } catch(e) { s.innerText = '❌ Access Restricted'; }
-    setTimeout(() => s.style.display = 'none', 4000);
-};
-
-window.onload = loadData;
+// Initialization
+window.onload = () => { loadData(); };
 </script>
 </body>
 </html>
